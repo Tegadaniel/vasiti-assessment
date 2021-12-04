@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+import Header from './components/Header'
+import Body from './components/Body'
+import Footer from './components/Footer'
+import Story from './components/Story'
+import Congrats from './components/Congrats'
+import {GlobalStyles} from './global';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
 
 function App() {
+  const [userReview, setUserReview] = useState([]);
+
+  const addReview = review => {
+    let post = [...userReview, review];
+
+    setUserReview(post);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <GlobalStyles />
+            <Header />
+            <Body userReview={userReview} />
+            <Footer />
+          </Route>
+          <Route exact path='/story'>
+            <Story addReview={addReview} />
+          </Route>
+          <Route exact path='/congrats'>
+            <Congrats />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 
